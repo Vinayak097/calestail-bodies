@@ -16,17 +16,17 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-DROP DATABASE postgres;
+DROP DATABASE universe;
 --
--- Name: postgres; Type: DATABASE; Schema: -; Owner: postgres
+-- Name: universe; Type: DATABASE; Schema: -; Owner: freecodecamp
 --
 
-CREATE DATABASE postgres WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
+CREATE DATABASE universe WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
 
 
-ALTER DATABASE postgres OWNER TO postgres;
+ALTER DATABASE universe OWNER TO freecodecamp;
 
-\connect postgres
+\connect universe
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -38,13 +38,6 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: DATABASE postgres; Type: COMMENT; Schema: -; Owner: postgres
---
-
-COMMENT ON DATABASE postgres IS 'default administrative connection database';
-
 
 SET default_tablespace = '';
 
@@ -172,8 +165,7 @@ CREATE TABLE public.planet (
     planet_types character varying(50),
     has_life boolean,
     star_id integer,
-    distance_from_earth numeric,
-    distance_from_sun integer
+    distance_from_earth numeric
 );
 
 
@@ -209,7 +201,7 @@ CREATE TABLE public.star (
     star_id integer NOT NULL,
     name character varying(50) NOT NULL,
     description text,
-    age_in_millions_of_years integer,
+    age_in_millions_of_years integer NOT NULL,
     galaxy_id integer
 );
 
@@ -326,18 +318,18 @@ INSERT INTO public.moon VALUES (20, 'Kerberos', 5900.0, 9, 'Small moon in the ou
 -- Data for Name: planet; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.planet VALUES (1, 'Mercury', 'Terrestrial', false, 1, 77.3, 57);
-INSERT INTO public.planet VALUES (2, 'Venus', 'Terrestrial', false, 1, 41.4, 108);
-INSERT INTO public.planet VALUES (3, 'Earth', 'Terrestrial', true, 1, 0, 150);
-INSERT INTO public.planet VALUES (4, 'Mars', 'Terrestrial', false, 1, 78.3, 228);
-INSERT INTO public.planet VALUES (5, 'Jupiter', 'Gas Giant', false, 1, 628.7, 778);
-INSERT INTO public.planet VALUES (6, 'Saturn', 'Gas Giant', false, 1, 1275, 1430);
-INSERT INTO public.planet VALUES (7, 'Uranus', 'Ice Giant', false, 1, 2720, 2870);
-INSERT INTO public.planet VALUES (8, 'Neptune', 'Ice Giant', false, 1, 4345, 4495);
-INSERT INTO public.planet VALUES (9, 'Proxima b', 'Terrestrial', false, 2, 4.24, 0);
-INSERT INTO public.planet VALUES (10, 'Sirius b Planet', 'Terrestrial', false, 3, 8.6, 0);
-INSERT INTO public.planet VALUES (11, 'Vega b', 'Gas Giant', false, 5, 25, 0);
-INSERT INTO public.planet VALUES (12, 'Polaris b', 'Gas Giant', false, 6, 433, 0);
+INSERT INTO public.planet VALUES (1, 'Mercury', 'Terrestrial', false, 1, 77.3);
+INSERT INTO public.planet VALUES (2, 'Venus', 'Terrestrial', false, 1, 41.4);
+INSERT INTO public.planet VALUES (3, 'Earth', 'Terrestrial', true, 1, 0);
+INSERT INTO public.planet VALUES (4, 'Mars', 'Terrestrial', false, 1, 78.3);
+INSERT INTO public.planet VALUES (5, 'Jupiter', 'Gas Giant', false, 1, 628.7);
+INSERT INTO public.planet VALUES (6, 'Saturn', 'Gas Giant', false, 1, 1275);
+INSERT INTO public.planet VALUES (7, 'Uranus', 'Ice Giant', false, 1, 2720);
+INSERT INTO public.planet VALUES (8, 'Neptune', 'Ice Giant', false, 1, 4345);
+INSERT INTO public.planet VALUES (9, 'Proxima b', 'Terrestrial', false, 2, 4.24);
+INSERT INTO public.planet VALUES (10, 'Sirius b Planet', 'Terrestrial', false, 3, 8.6);
+INSERT INTO public.planet VALUES (11, 'Vega b', 'Gas Giant', false, 5, 25);
+INSERT INTO public.planet VALUES (12, 'Polaris b', 'Gas Giant', false, 6, 433);
 
 
 --
@@ -484,11 +476,11 @@ ALTER TABLE ONLY public.moon
 
 
 --
--- Name: planet planet_start_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: planet planet_star_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.planet
-    ADD CONSTRAINT planet_start_id_fkey FOREIGN KEY (star_id) REFERENCES public.star(star_id);
+    ADD CONSTRAINT planet_star_id_fkey FOREIGN KEY (star_id) REFERENCES public.star(star_id);
 
 
 --
